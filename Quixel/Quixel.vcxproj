@@ -125,7 +125,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\manju\OneDrive\Desktop\Projects\MyGame Engines\Quixel\Quixel\Extra;C:\Users\manju\OneDrive\Desktop\Projects\MyGame Engines\Quixel\Quixel\include;C:\Users\manju\OneDrive\Desktop\Projects\MyGame Engines\Quixel\Quixel\Libraries\include\SFML;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>C:\Users\manju\OneDrive\Desktop\Projects\MyGame Engines\Quixel\Quixel;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

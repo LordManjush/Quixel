@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Quixel.h"
 
+
 QuixelExtra::Icon icon;
 Quixel::Scene::Window _window;
 ImGui::ImGuiStyles imguiStyles;
@@ -34,7 +35,6 @@ int main()
                 _window.window.close();
             }
         }
-        
         ImGui::SFML::Update(_window.window, deltaClock.restart());
 
         ImGui::PushFont(fancyFont);
