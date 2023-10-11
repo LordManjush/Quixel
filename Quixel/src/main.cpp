@@ -6,16 +6,16 @@
 #include "Quixel.h"
 
 QuixelExtra::Icon icon;
-
+Quixel::Scene::Window _window;
 ImGui::ImGuiStyles imguiStyles;
 int main()
 {
-    sf::RenderWindow window{ sf::VideoMode(1080, 700), "Quixel" };
-    window.setFramerateLimit(120);
 
-    ImGui::SFML::Init(window);
+    Quixel::Start(_window);
+
+    ImGui::SFML::Init(_window.window);
     auto& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
     auto fancyFont = io.Fonts->AddFontFromFileTTF(
         "./Data/fonts/NotoSans-Regular.ttf", 20);
@@ -24,35 +24,32 @@ int main()
     }
     imguiStyles.DarkMode();
     icon.SetUpIcon("./Data/Icons/Error.png");
-    Quixel::Update();
     sf::Clock deltaClock{};
-    while (window.isOpen()) {
+    while (_window.window.isOpen()) {
         sf::Event event{};
-        while (window.pollEvent(event)) {
-            ImGui::SFML::ProcessEvent(window, event);
+        while (_window.window.pollEvent(event)) {
+            ImGui::SFML::ProcessEvent(_window.window, event);
 
             if (event.type == sf::Event::Closed) {
-                window.close();
+                _window.window.close();
             }
         }
-
-        ImGui::SFML::Update(window, deltaClock.restart());
+        
+        ImGui::SFML::Update(_window.window, deltaClock.restart());
 
         ImGui::PushFont(fancyFont);
-        ImGui::DockSpaceOverViewport();
-        ImGui::ShowDemoWindow();
-        ImGui::Begin("Test");
-        ImGui::Image(icon.image);
-        ImGui::End();
 
-        Quixel::Update();
+        //Editor
+
+
 
         ImGui::PopFont();
-        window.clear();
+        Quixel::Update(_window);
 
-        ImGui::SFML::Render(window);
 
-        window.display();
+        ImGui::SFML::Render(_window.window);
+
+        _window.window.display();
     }
     ImGui::SFML::Shutdown();
 }

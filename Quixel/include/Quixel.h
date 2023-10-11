@@ -4,6 +4,6 @@
 
 namespace Quixel 
 {
-	void Start();
-	void Update();
+	void Start(Scene::Window& window);
+	void Update(Scene::Window& window);
 }
