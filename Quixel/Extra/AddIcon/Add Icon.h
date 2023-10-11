@@ -1,6 +1,6 @@
 #pragma once
 #include <Graphics.hpp>
-namespace Quixel
+namespace QuixelExtra
 {
 	struct Icon
 	{

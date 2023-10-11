@@ -3,8 +3,9 @@
 #include <imgui-SFML.h>
 #include "Style/ImguiStyle.h"
 #include <iostream>
+#include "Quixel.h"
 
-Quixel::Icon icon;
+QuixelExtra::Icon icon;
 
 ImGui::ImGuiStyles imguiStyles;
 int main()
@@ -23,7 +24,7 @@ int main()
     }
     imguiStyles.DarkMode();
     icon.SetUpIcon("./Data/Icons/Error.png");
-
+    Quixel::Update();
     sf::Clock deltaClock{};
     while (window.isOpen()) {
         sf::Event event{};
@@ -43,7 +44,9 @@ int main()
         ImGui::Begin("Test");
         ImGui::Image(icon.image);
         ImGui::End();
-        //draw
+
+        Quixel::Update();
+
         ImGui::PopFont();
         window.clear();
 
