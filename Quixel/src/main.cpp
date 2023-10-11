@@ -44,10 +44,11 @@ int main()
 
 
         ImGui::PopFont();
-        Quixel::Update(_window);
 
 
         ImGui::SFML::Render(_window.window);
+        _window.window.clear(sf::Color::Black);
+        Quixel::Update(_window);
 
         _window.window.display();
     }

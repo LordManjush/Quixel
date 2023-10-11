@@ -11,9 +11,11 @@ namespace Quixel {
 			int ID;
 			std::string name;
 			sf::CircleShape sprite;
-			sf::Vector2f Position;
-			sf::Vector2f Scale;
+			sf::Vector2f Position = {0, 0};
+			sf::Vector2f Scale = {100, 100};
 			float Rotation;
+			float color[3] = { (float)204 / 255, (float)77 / 255, (float)5 / 255 };
+			float Opacity = 100;
 		};
 		struct Window
 		{
