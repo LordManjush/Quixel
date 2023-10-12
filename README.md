@@ -1,4 +1,4 @@
-# Quixel
+# Quixel a mini game engine
 
 Made because of my ego
 
