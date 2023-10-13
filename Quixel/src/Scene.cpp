@@ -10,17 +10,16 @@ void Quixel::Scene::SceneManager::ChangeScene(int ID)
 	}
 }
 
-void Quixel::Scene::Scene::DrawScene(Window& window)
+void Quixel::Scene::DrawAll(sf::RenderTexture& rt, GameObject& gameObject)
 {
-	for (auto& gameObject : gameObjects)
-	{
-		gameObject.sprite.setPosition(gameObject.Position);
-		gameObject.sprite.setRadius(gameObject.Scale.x);
-		gameObject.sprite.setFillColor(sf::Color((int)(gameObject.color[0] * 255),
-			(int)(gameObject.color[1] * 255),
-			(int)(gameObject.color[2] * 255),
-			gameObject.Opacity));
-		window.window.draw(gameObject.sprite);
-	}
+	gameObject.shape.setPosition(sf::Vector2f(gameObject.Position.x, gameObject.Position.y));
+	gameObject.shape.setSize(sf::Vector2f(gameObject.Scale.x, gameObject.Scale.y));
+	gameObject.shape.setRotation(gameObject.Rotation);
+	gameObject.shape.setFillColor(sf::Color((int)(gameObject.color[0] * 255),
+		(int)(gameObject.color[1] * 255),
+		(int)(gameObject.color[2] * 255),
+		gameObject.Opacity));
+	rt.draw(gameObject.shape);
 }
+
 

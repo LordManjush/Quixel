@@ -137,8 +137,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\Editor\BluePrints.h" />
     <ClInclude Include="Extra\AddIcon\Add Icon.h" />
     <ClInclude Include="Extra\Style\ImguiStyle.h" />
+    <ClInclude Include="include\Editor\QuixelEditor.h" />
     <ClInclude Include="include\KeyDetection.h" />
     <ClInclude Include="include\Quixel.h" />
     <ClInclude Include="include\Scene.h" />
@@ -155,9 +158,10 @@
     <ClInclude Include="Libraries\imgui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Editor\BluePrints.cpp" />
     <ClCompile Include="Extra\AddIcon\Add Icon.cpp" />
     <ClCompile Include="Extra\Style\ImguiStyle.cpp" />
-    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="src\Editor\QuixelEditor.cpp" />
     <ClCompile Include="src\KeyDetection.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="Libraries\imgui\imgui-SFML.cpp" />
