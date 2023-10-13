@@ -19,6 +19,12 @@ void Quixel::Scene::DrawAll(sf::RenderTexture& rt, GameObject& gameObject)
 		(int)(gameObject.color[1] * 255),
 		(int)(gameObject.color[2] * 255),
 		gameObject.Opacity));
+	gameObject.shape.setOutlineColor(sf::Color((int)(gameObject.BorderColor[0] * 255),
+		(int)(gameObject.BorderColor[1] * 255),
+		(int)(gameObject.BorderColor[2] * 255),
+		gameObject.BorderOpacity));
+	gameObject.shape.setOutlineThickness(gameObject.BorderThickness);
+
 	rt.draw(gameObject.shape);
 }
 

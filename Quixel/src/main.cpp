@@ -20,8 +20,8 @@ int main()
     sf::RenderWindow window{ sf::VideoMode(1080, 600), "Quixel editor" };
     window.setFramerateLimit(120);
     ImGui::SFML::Init(window);
-    GameView.setCenter(0, 0);
-    SceneView.setCenter(0, 0);
+    //GameView.setCenter(0, 0);
+    //SceneView.setCenter(0, 0);
     SceneView.setSize(sf::Vector2f(1080, 500));
     GameView.setSize(sf::Vector2f(1080, 500));
     imnodes::CreateContext();

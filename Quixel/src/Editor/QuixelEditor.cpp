@@ -16,23 +16,24 @@ bool PropertiesWindow = true;
 bool ConsoleWindow = true;
 #pragma endregion
 Quixel::Scene::Camera MainCamera;
-Quixel::Scene::Camera SceneCamera;
+
 
 void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& SceneView, ImVec2 Size)
 {
-    if (ImGui::IsKeyDown(ImGuiKey_A))
+    Quixel::Scene::Camera SceneCamera;
+    if (Quixel::InputSystem::IsKeyPressed(ImGuiKey_A))
     {
         SceneCamera.Position.x--;
     }
-    if (ImGui::IsKeyDown(ImGuiKey_D))
+    if (Quixel::InputSystem::IsKeyPressed(ImGuiKey_D))
     {
         SceneCamera.Position.x++;
     }
-    if (ImGui::IsKeyDown(ImGuiKey_W))
+    if (Quixel::InputSystem::IsKeyPressed(ImGuiKey_W))
     {
         SceneCamera.Position.y--;
     }
-    if (ImGui::IsKeyDown(ImGuiKey_S))
+    if (Quixel::InputSystem::IsKeyPressed(ImGuiKey_S))
     {
         SceneCamera.Position.y++;
     }
@@ -41,14 +42,17 @@ void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& Scen
         sf::ContextSettings context;
         context.antialiasingLevel = 9;
         SceneView.setCenter(SceneCamera.Position.x, SceneCamera.Position.y);
+       // SceneView.move(SceneCamera.Position.x, SceneCamera.Position.y);
         SceneView.setSize(rt.getSize().x, rt.getSize().y);
         rt.create(1080, 500);
         rt.setView(SceneView);
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+
         ImGui::Begin("SceneView", &SceneWindow, ImGuiWindowFlags_NoScrollbar);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
         ImGui::Image(rt, sf::Color::White);
-        ImGui::End();
         ImGui::PopStyleVar();
+        ImGui::End();
+
     }
 }
 void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameView, ImVec2 Size)
@@ -168,6 +172,8 @@ void Quixel::Editor::Editor::ProperitesPanel()
             }
             if (ImGui::CollapsingHeader("Settings"))
             {
+                ImGui::ColorEdit3("Color ", MainCamera.color);
+                ImGui::DragFloat(" Opacity", &MainCamera.Opacity, 1, 0.1, 0.1);
             }
         }
         if (selectedGameObject != nullptr)
@@ -189,36 +195,25 @@ void Quixel::Editor::Editor::ProperitesPanel()
                 ImGui::Separator();
                 ImGui::Text("Position");
                 ImGui::Separator();
-                if (ImGui::DragFloat2(" ", reinterpret_cast<float*>(&selectedGameObject->Position), 1, 0.1, 0.1))
-                {
-                    
-
-                }
-                else
-                {
-                    
-                }
+                ImGui::DragFloat2(" ", reinterpret_cast<float*>(&selectedGameObject->Position), 1, 0.1, 0.1);
+    
                 ImGui::Separator();
                 ImGui::Text("Scale");
-                if (ImGui::DragFloat2("  ", reinterpret_cast<float*>(&selectedGameObject->Scale), 1, 0.1, 0.1))
-                {
-                    
-                }
-                else
-                {
-                    
-                }
+                ImGui::DragFloat2("  ", reinterpret_cast<float*>(&selectedGameObject->Scale), 1, 0.1, 0.1);
+ 
                 ImGui::Separator();
-                if (ImGui::DragFloat("Rotation", &selectedGameObject->Rotation, 1, 0.1, 0.1))
-                {
-
-                }
+                ImGui::DragFloat("Rotation", &selectedGameObject->Rotation, 1, 0.1, 0.1);
                 ImGui::Separator();
             }
             if (ImGui::CollapsingHeader("SpriteRenderer"))
             {
                 ImGui::ColorEdit3("Color", selectedGameObject->color);
                 ImGui::DragFloat("Opacity", &selectedGameObject->Opacity, 1, 0.1, 0.1);
+
+                ImGui::Text("Outline");
+                ImGui::ColorEdit3("Outline Color", selectedGameObject->BorderColor);
+                ImGui::DragFloat("Outline Thickness", &selectedGameObject->BorderThickness, 1, 0.1, 0.1);
+                ImGui::DragFloat("Outline Opacity", &selectedGameObject->BorderOpacity, 1, 0.1, 0.1);
             }
         }
         if (MainCamera.IsSelected == false && selectedGameObject == nullptr)
@@ -231,6 +226,10 @@ void Quixel::Editor::Editor::ProperitesPanel()
 
 void Quixel::Editor::Editor::DrawAll(sf::RenderTexture& rt1, sf::RenderTexture& rt2)
 {
+    rt2.clear(sf::Color((int)(MainCamera.color[0] * 255),
+        (int)(MainCamera.color[1] * 255),
+        (int)(MainCamera.color[2] * 255),
+        MainCamera.Opacity));
     for (auto& object : gameObjects)
     {
         Quixel::Scene::DrawAll(rt1, object);

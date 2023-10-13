@@ -18,6 +18,9 @@ namespace Quixel {
 			bool Properties = false;
 			float color[3] = { (float)204 / 255, (float)77 / 255, (float)5 / 255 };
 			float Opacity = 255;
+			float BorderColor[3] = { (float)204 / 255, (float)77 / 255, (float)5 / 255 };
+			float BorderOpacity = 255;
+			float BorderThickness = 0;
 			bool IsSelected = false;
 		};
 		void DrawAll(sf::RenderTexture& rt, GameObject& gameObject);
