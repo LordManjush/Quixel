@@ -41,10 +41,10 @@ void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& Scen
     {
         sf::ContextSettings context;
         context.antialiasingLevel = 9;
-        SceneView.setCenter(SceneCamera.Position.x, SceneCamera.Position.y);
-       // SceneView.move(SceneCamera.Position.x, SceneCamera.Position.y);
-        SceneView.setSize(rt.getSize().x, rt.getSize().y);
         rt.create(1080, 500);
+        SceneView.setCenter(SceneCamera.Position.x, SceneCamera.Position.y);
+        // SceneView.move(SceneCamera.Position.x, SceneCamera.Position.y);
+        SceneView.setSize(rt.getSize().x, rt.getSize().y);
         rt.setView(SceneView);
 
         ImGui::Begin("SceneView", &SceneWindow, ImGuiWindowFlags_NoScrollbar);
@@ -55,17 +55,18 @@ void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& Scen
 
     }
 }
+
 void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameView, ImVec2 Size)
 {
     if (GameWindow == true)
     {
         GameView.setSize(Size.x, Size.y);
-        GameView.setCenter(MainCamera.Position.x, MainCamera.Position.y);
+        GameView.setCenter(MainCamera.Position);
         rt.create(1080, 500);
         rt.setView(GameView);
         ImGuiWindowFlags flags;
         flags = ImGuiWindowFlags_NoScrollWithMouse, ImGuiWindowFlags_NoTitleBar;
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(200, 0));
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 0));
         ImGui::Begin("Game", nullptr, flags);
         ImGui::Image(rt, sf::Color::White);
         ImGui::PopStyleVar();
@@ -95,24 +96,22 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
     }
 
 #pragma region Play and Stop
+    ImGui::Separator();
     if (IsPlaying == false)
     {
-        ImGui::Separator();
         if (ImGui::Button("Play") && IsPlaying == false)
         {
             IsPlaying = true;
         }
-        ImGui::Separator();
     }
     if (IsPlaying == true)
     {
-        ImGui::Separator();
         if (ImGui::Button("Stop") && IsPlaying == true)
         {
             IsPlaying = false;
         }
-        ImGui::Separator();
     }
+    ImGui::Separator();
 
 #pragma endregion
 
@@ -220,6 +219,24 @@ void Quixel::Editor::Editor::ProperitesPanel()
         {
             ImGui::Text("None Selected");
         }
+        ImGui::End();
+    }
+}
+
+void Quixel::Editor::Editor::BluePrintEditor()
+{
+    if (ImGui::Begin("BluePrints"))
+    {
+        imnodes::BeginNodeEditor();
+        if (selectedGameObject != nullptr)
+        {
+            ImGui::Text(selectedGameObject->name.c_str());
+        }
+        if (selectedGameObject == nullptr)
+        {
+            ImGui::Text("No GameObject selected");
+        }
+        imnodes::EndNodeEditor();
         ImGui::End();
     }
 }

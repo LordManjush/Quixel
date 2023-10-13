@@ -12,6 +12,7 @@ namespace Quixel
 			void GameViewPort(sf::RenderTexture& rt, sf::View& GameView, ImVec2 Size);
 			void SceneHierarchy(sf::RenderTexture& rt);
 			void ProperitesPanel();
+			void BluePrintEditor();
 			void DrawAll(sf::RenderTexture& rt1, sf::RenderTexture& rt2);
 		};
 	}
