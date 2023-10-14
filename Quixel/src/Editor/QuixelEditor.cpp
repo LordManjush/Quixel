@@ -182,7 +182,7 @@ void Quixel::Editor::Editor::ProperitesPanel()
                 selectedGameObject = &gameObjects[ID];
             }
             ImGui::SameLine();
-            if (ImGui::Button("To botton") && selectedGameObject->ID < gameObjects.size() - 1)
+            if (ImGui::Button("To bottom") && selectedGameObject->ID < gameObjects.size() - 1)
             {
                 std::swap(gameObjects[selectedGameObject->ID], gameObjects[selectedGameObject->ID + 1]);
                 int ID = selectedGameObject->ID;

@@ -22,7 +22,7 @@ namespace Quixel {
 			sf::Vector2f Scale = { 1, 1 };
 			float Rotation = 90;
 			bool Properties = false;
-			float color[3] = { (float)204 / 255, (float)77 / 255, (float)5 / 255 };
+			float color[3] = { (float)255 / 255, (float)255 / 255, (float)255 / 255 };
 			float Opacity = 255;
 			std::string textureName;
 			std::vector<SpriteRenderer> sprites;
