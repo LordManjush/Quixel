@@ -145,19 +145,25 @@
     <ClInclude Include="include\KeyDetection.h" />
     <ClInclude Include="include\Quixel.h" />
     <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="Libraries\imgui\dirent.h" />
     <ClInclude Include="Libraries\imgui\imconfig-SFML.h" />
     <ClInclude Include="Libraries\imgui\imconfig.h" />
     <ClInclude Include="Libraries\imgui\imgui-SFML.h" />
     <ClInclude Include="Libraries\imgui\imgui-SFML_export.h" />
     <ClInclude Include="Libraries\imgui\imgui.h" />
+    <ClInclude Include="Libraries\imgui\ImGuiFileDialog.h" />
+    <ClInclude Include="Libraries\imgui\ImGuiFileDialogConfig.h" />
     <ClInclude Include="Libraries\imgui\imgui_internal.h" />
     <ClInclude Include="Libraries\imgui\imgui_stdlib.h" />
     <ClInclude Include="Libraries\imgui\imnodes.h" />
     <ClInclude Include="Libraries\imgui\imstb_rectpack.h" />
     <ClInclude Include="Libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="Libraries\imgui\imstb_truetype.h" />
+    <ClInclude Include="include\SpriteRenderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Libraries\imgui\ImGuiFileDialog.cpp" />
+    <ClCompile Include="src\SpriteRenderer.cpp" />
     <ClCompile Include="src\Editor\BluePrints.cpp" />
     <ClCompile Include="Extra\AddIcon\Add Icon.cpp" />
     <ClCompile Include="Extra\Style\ImguiStyle.cpp" />

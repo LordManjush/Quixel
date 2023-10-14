@@ -59,6 +59,7 @@ int main()
             GameViewRt.create(1080, 500);
             SceneViewRt.clear(sf::Color::Black);
             GameViewRt.clear(sf::Color::Black);
+            editor.ProperitesPanel();
             editor.DrawAll(SceneViewRt, GameViewRt);
 
 
@@ -67,7 +68,7 @@ int main()
             GameViewRt.display();
             editor.SceneViewPort(SceneViewRt, SceneView, ImVec2(1080, 500));
             editor.GameViewPort(GameViewRt, GameView, ImVec2(700, 500));
-            editor.ProperitesPanel();
+
             editor.SceneHierarchy(SceneViewRt);
             editor.BluePrintEditor();
             //draw

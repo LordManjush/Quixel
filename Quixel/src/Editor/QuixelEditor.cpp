@@ -1,9 +1,9 @@
 #include "Editor/QuixelEditor.h"
-#include <imgui.h>
+#include "SpriteRenderer.h"
 #include <AddIcon/Add Icon.h>
-#include "Quixel.h"
 #include <imgui_stdlib.h>
 #include <imgui-SFML.h>
+
 
 Quixel::Scene::GameObject* selectedGameObject = nullptr;
 std::vector<Quixel::Scene::GameObject> gameObjects;
@@ -72,6 +72,7 @@ void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameV
         ImGui::PopStyleVar();
         ImGui::End();
     }
+
 }
 void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
 {
@@ -117,7 +118,6 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
 
     if (ImGui::Button("Add")) {
         Scene::GameObject newGameObject;
-        newGameObject.shape.setFillColor(sf::Color::Blue);
         gameObjects.push_back(newGameObject);
     }
     if (ImGui::Selectable("Main Camera"))
@@ -146,9 +146,6 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
     }
     ImGui::End();
 }
-
-int node_id = 0;
-int linkId = 0;
 
 void Quixel::Editor::Editor::ProperitesPanel()
 {
@@ -206,13 +203,11 @@ void Quixel::Editor::Editor::ProperitesPanel()
             }
             if (ImGui::CollapsingHeader("SpriteRenderer"))
             {
+                Quixel::Compoent::SpriteRenderer(selectedGameObject);
+
                 ImGui::ColorEdit3("Color", selectedGameObject->color);
                 ImGui::DragFloat("Opacity", &selectedGameObject->Opacity, 1, 0.1, 0.1);
 
-                ImGui::Text("Outline");
-                ImGui::ColorEdit3("Outline Color", selectedGameObject->BorderColor);
-                ImGui::DragFloat("Outline Thickness", &selectedGameObject->BorderThickness, 1, 0.1, 0.1);
-                ImGui::DragFloat("Outline Opacity", &selectedGameObject->BorderOpacity, 1, 0.1, 0.1);
             }
         }
         if (MainCamera.IsSelected == false && selectedGameObject == nullptr)
@@ -249,6 +244,10 @@ void Quixel::Editor::Editor::DrawAll(sf::RenderTexture& rt1, sf::RenderTexture& 
         MainCamera.Opacity));
     for (auto& object : gameObjects)
     {
+        for (auto& texture : object.sprites)
+        {
+             object.shape.setTexture(texture.texture);
+        }
         Quixel::Scene::DrawAll(rt1, object);
         Quixel::Scene::DrawAll(rt2, object);
     }
