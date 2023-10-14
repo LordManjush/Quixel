@@ -11,12 +11,12 @@ void Quixel::Compoent::SpriteRenderer(Quixel::Scene::GameObject* selectedGameObj
 		// action if OK
 		if (ImGuiFileDialog::Instance()->IsOk())
 		{
+			selectedGameObject->sprites.clear();
 			spriteName = ImGuiFileDialog::Instance()->GetCurrentFileName();
 			spritePath = ImGuiFileDialog::Instance()->GetFilePathName();
 			Quixel::Scene::SpriteRenderer newSpriteRenderer;
 			newSpriteRenderer.path = spritePath;
 			newSpriteRenderer.texture.loadFromFile(newSpriteRenderer.path);
-			selectedGameObject->sprites.clear();
 			selectedGameObject->sprites.push_back(newSpriteRenderer);
 			selectedGameObject->textureName = spriteName;
 

@@ -259,10 +259,10 @@ void Quixel::Editor::Editor::DrawAll(sf::RenderTexture& rt1, sf::RenderTexture& 
     {
         for (auto& texture : object.sprites)
         {
-             object.shape.setTexture(texture.texture);
+            object.shape.setTexture(texture.texture);
+            Quixel::Scene::DrawAll(rt1, object);
+            Quixel::Scene::DrawAll(rt2, object);
         }
-        Quixel::Scene::DrawAll(rt1, object);
-        Quixel::Scene::DrawAll(rt2, object);
     }
 }
 
