@@ -26,7 +26,6 @@ namespace Quixel {
 			float Opacity = 255;
 			std::string textureName;
 			std::vector<SpriteRenderer> sprites;
-
 		};
 		void DrawAll(sf::RenderTexture& rt, GameObject& gameObject);
 		struct Scene

@@ -146,7 +146,6 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
     }
     ImGui::End();
 }
-
 void Quixel::Editor::Editor::ProperitesPanel()
 {
     if (PropertiesWindow == true)
@@ -175,7 +174,21 @@ void Quixel::Editor::Editor::ProperitesPanel()
         if (selectedGameObject != nullptr)
         {
             ImGui::InputText("##dgdfg", &selectedGameObject->name);
-
+            ImGui::Separator();
+            if (ImGui::Button("To top") && selectedGameObject->ID > 0)
+            {
+                std::swap(gameObjects[selectedGameObject->ID], gameObjects[selectedGameObject->ID - 1]);
+                int ID = selectedGameObject->ID;
+                selectedGameObject = &gameObjects[ID];
+            }
+            ImGui::SameLine();
+            if (ImGui::Button("To botton") && selectedGameObject->ID < gameObjects.size() - 1)
+            {
+                std::swap(gameObjects[selectedGameObject->ID], gameObjects[selectedGameObject->ID + 1]);
+                int ID = selectedGameObject->ID;
+                selectedGameObject = &gameObjects[ID];
+            }
+            ImGui::Separator();
             if (ImGui::CollapsingHeader("About"))
             {
                 ImGui::Separator();
