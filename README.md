@@ -10,3 +10,5 @@ using SFML, IMGUI
 
 (Current look)
 ![Screenshot 2023-10-13 064953](https://github.com/LordManjush/Quixel/assets/133102637/33e22043-6cd5-40ed-8e91-d2821ce82564)
+
+Thanks to https://www.fiverr.com/mineralbrewer/make-you-a-simplistic-logo?# for the logo
