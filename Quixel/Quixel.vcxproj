@@ -141,10 +141,13 @@
     <ClInclude Include="include\Editor\BluePrints.h" />
     <ClInclude Include="Extra\AddIcon\Add Icon.h" />
     <ClInclude Include="Extra\Style\ImguiStyle.h" />
+    <ClInclude Include="include\Editor\Console.h" />
+    <ClInclude Include="include\Editor\Graph.h" />
     <ClInclude Include="include\Editor\QuixelEditor.h" />
     <ClInclude Include="include\KeyDetection.h" />
     <ClInclude Include="include\Quixel.h" />
     <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="Libraries\imgui\crude_json.h" />
     <ClInclude Include="Libraries\imgui\dirent.h" />
     <ClInclude Include="Libraries\imgui\imconfig-SFML.h" />
     <ClInclude Include="Libraries\imgui\imconfig.h" />
@@ -153,16 +156,22 @@
     <ClInclude Include="Libraries\imgui\imgui.h" />
     <ClInclude Include="Libraries\imgui\ImGuiFileDialog.h" />
     <ClInclude Include="Libraries\imgui\ImGuiFileDialogConfig.h" />
+    <ClInclude Include="Libraries\imgui\imgui_bezier_math.h" />
+    <ClInclude Include="Libraries\imgui\imgui_extra_math.h" />
     <ClInclude Include="Libraries\imgui\imgui_internal.h" />
+    <ClInclude Include="Libraries\imgui\imgui_node_editor.h" />
+    <ClInclude Include="Libraries\imgui\imgui_node_editor_internal.h" />
     <ClInclude Include="Libraries\imgui\imgui_stdlib.h" />
     <ClInclude Include="Libraries\imgui\imnodes.h" />
     <ClInclude Include="Libraries\imgui\imstb_rectpack.h" />
     <ClInclude Include="Libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="Libraries\imgui\imstb_truetype.h" />
     <ClInclude Include="include\SpriteRenderer.h" />
+    <ClInclude Include="Libraries\imgui\json.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\imgui\ImGuiFileDialog.cpp" />
+    <ClCompile Include="Libraries\imgui\imnodes.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
     <ClCompile Include="src\Editor\BluePrints.cpp" />
     <ClCompile Include="Extra\AddIcon\Add Icon.cpp" />
@@ -177,8 +186,12 @@
     <ClCompile Include="Libraries\imgui\imgui_stdlib.cpp" />
     <ClCompile Include="Libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="Libraries\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="Libraries\imgui\imnodes.cpp" />
     <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Libraries\imgui\imgui_bezier_math.inl" />
+    <None Include="Libraries\imgui\imgui_extra_math.inl" />
+    <None Include="Libraries\imgui\imgui_node_editor_internal.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

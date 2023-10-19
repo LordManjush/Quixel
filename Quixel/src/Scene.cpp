@@ -24,3 +24,15 @@ void Quixel::Scene::DrawAll(sf::RenderTexture& rt, GameObject& gameObject)
 }
 
 
+
+void Quixel::Scene::Save_Load::SaveGameObject(const Quixel::Scene::GameObject& object, const std::string& filename)
+{
+
+
+}
+
+void Quixel::Scene::Save_Load::LoadGameObject(const std::string& filename, std::vector<GameObject> gameObjects)
+{
+
+}
+

@@ -29,7 +29,7 @@ void Quixel::Compoent::SpriteRenderer(Quixel::Scene::GameObject* selectedGameObj
 	}
 	if (ImGui::Button("Add Image"))
 	{
-		ImGuiFileDialog::Instance()->OpenDialog("SelectTexture", "Select Sprite", ".png, .svg, .jpeg", "./ ");
+		ImGuiFileDialog::Instance()->OpenDialog("SelectTexture", "Select Sprite", ".png, .svg, .jpg", "./ ");
 	}
 	ImGui::Text(selectedGameObject->textureName.c_str());
 }

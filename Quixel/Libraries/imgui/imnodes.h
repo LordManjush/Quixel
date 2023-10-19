@@ -337,3 +337,4 @@ void SaveEditorStateToIniFile(const EditorContext* editor, const char* file_name
 void LoadCurrentEditorStateFromIniFile(const char* file_name);
 void LoadEditorStateFromIniFile(EditorContext* editor, const char* file_name);
 } // namespace imnodes
+

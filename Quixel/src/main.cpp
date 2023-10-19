@@ -14,17 +14,19 @@ sf::Clock deltaClock{};
 //Views
 sf::View SceneView;
 sf::View GameView;
+sf::RenderTexture SceneViewRt;
+sf::RenderTexture GameViewRt;
 
 int main()
 {
     sf::RenderWindow window{ sf::VideoMode(1080, 600), "Quixel editor" };
     window.setFramerateLimit(120);
     ImGui::SFML::Init(window);
+    imnodes::CreateContext();
     GameView.setCenter(0, 0);
     SceneView.setCenter(0, 0);
     SceneView.setSize(sf::Vector2f(1080, 500));
     GameView.setSize(sf::Vector2f(1080, 500));
-    imnodes::CreateContext();
     auto& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
@@ -47,17 +49,16 @@ int main()
 
             ImGui::SFML::Update(window, deltaClock.restart());
 
-            sf::RenderTexture SceneViewRt;
-            sf::RenderTexture GameViewRt;
-
-            sf::CircleShape shape{ 50, 100 };
-            shape.setFillColor(sf::Color::Red);
 
             ImGui::PushFont(fancyFont);
             ImGui::DockSpaceOverViewport();
-            SceneViewRt.create(1080, 500);
-            GameViewRt.create(1080, 500);
-            SceneViewRt.clear(sf::Color::Black);
+            editor.SceneViewPort(SceneViewRt, SceneView);
+            editor.GameViewPort(GameViewRt, GameView);
+
+            editor.SceneHierarchy(SceneViewRt);
+            editor.Console();
+            editor.BluePrintEditor();
+            SceneViewRt.clear(sf::Color(128, 128, 128));
             GameViewRt.clear(sf::Color::Black);
             editor.ProperitesPanel();
             editor.DrawAll(SceneViewRt, GameViewRt);
@@ -66,12 +67,6 @@ int main()
 
             SceneViewRt.display();
             GameViewRt.display();
-            editor.SceneViewPort(SceneViewRt, SceneView, ImVec2(1080, 500));
-            editor.GameViewPort(GameViewRt, GameView, ImVec2(700, 500));
-
-            editor.SceneHierarchy(SceneViewRt);
-            editor.BluePrintEditor();
-            //draw
 
 
             ImGui::PopFont();

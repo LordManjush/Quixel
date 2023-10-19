@@ -3,11 +3,17 @@
 #include <AddIcon/Add Icon.h>
 #include <imgui_stdlib.h>
 #include <imgui-SFML.h>
+#include <Editor/Console.h>
+#include <json.hpp>
+
 
 
 Quixel::Scene::GameObject* selectedGameObject = nullptr;
-std::vector<Quixel::Scene::GameObject> gameObjects;
+
 bool IsPlaying = false;
+
+std::vector<Quixel::Message> ConsoleMessages;
+Quixel::Scene::Scene currentScene;
 
 #pragma region Views
 bool SceneWindow = true;
@@ -16,36 +22,50 @@ bool PropertiesWindow = true;
 bool ConsoleWindow = true;
 #pragma endregion
 Quixel::Scene::Camera MainCamera;
+Quixel::Scene::Camera SceneCamera;
+bool HasSaved = false;
+Quixel::Scene::Save_Load saveAndload;
+using json = nlohmann::json;
 
-
-void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& SceneView, ImVec2 Size)
+float zoom = 9;
+void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& SceneView)
 {
-    Quixel::Scene::Camera SceneCamera;
-    if (Quixel::InputSystem::IsKeyPressed(ImGuiKey_A))
-    {
-        SceneCamera.Position.x--;
-    }
-    if (Quixel::InputSystem::IsKeyPressed(ImGuiKey_D))
-    {
-        SceneCamera.Position.x++;
-    }
-    if (Quixel::InputSystem::IsKeyPressed(ImGuiKey_W))
-    {
-        SceneCamera.Position.y--;
-    }
-    if (Quixel::InputSystem::IsKeyPressed(ImGuiKey_S))
-    {
-        SceneCamera.Position.y++;
-    }
+
     if (SceneWindow == true)
     {
+        if (ImGui::IsKeyDown(ImGuiKey_G))
+        {
+            SceneCamera.Position.x = 350;
+            SceneCamera.Position.y = 150;
+        }
+        if (ImGui::IsKeyDown(ImGuiKey_A))
+        {
+            SceneCamera.Position.x = SceneCamera.Position.x - 8;
+        }
+        if (ImGui::IsKeyDown(ImGuiKey_D))
+        {
+            SceneCamera.Position.x = SceneCamera.Position.x + 8;
+        }
+        if (ImGui::IsKeyDown(ImGuiKey_W))
+        {
+            SceneCamera.Position.y = SceneCamera.Position.y - 8;
+        }
+        if (ImGui::IsKeyDown(ImGuiKey_S))
+        {
+            SceneCamera.Position.y = SceneCamera.Position.y + 8;
+        }
+
         sf::ContextSettings context;
         context.antialiasingLevel = 9;
-        rt.create(1080, 500);
+        float zoomNum = ImGui::GetIO().MouseWheel;
+        zoom += zoomNum;
         SceneView.setCenter(SceneCamera.Position.x, SceneCamera.Position.y);
         // SceneView.move(SceneCamera.Position.x, SceneCamera.Position.y);
-        SceneView.setSize(rt.getSize().x, rt.getSize().y);
+        SceneView.setSize(1080, 500);
+        SceneView.zoom(zoom);
+        rt.create(1080, 500);
         rt.setView(SceneView);
+
 
         ImGui::Begin("SceneView", &SceneWindow, ImGuiWindowFlags_NoScrollbar);
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
@@ -56,11 +76,11 @@ void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& Scen
     }
 }
 
-void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameView, ImVec2 Size)
+void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameView)
 {
     if (GameWindow == true)
     {
-        GameView.setSize(Size.x, Size.y);
+        GameView.setSize(700, 500);
         GameView.setCenter(MainCamera.Position);
         rt.create(1080, 500);
         rt.setView(GameView);
@@ -81,8 +101,24 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
     {
         if (ImGui::BeginMenu("File"))
         {
-            ImGui::MenuItem("Save", NULL, nullptr);
-            ImGui::MenuItem("Open", NULL, nullptr);
+            if (ImGui::MenuItem("Save", NULL, nullptr))
+            {
+                for (auto& gameObject : currentScene.gameObjects)
+                {
+                    saveAndload.SaveGameObject(gameObject, "Game.qpk");
+                }
+                Message savedMessage;
+                savedMessage.text = "Saved Project";
+                ConsoleMessages.push_back(savedMessage);
+            }
+            if (ImGui::MenuItem("Open", NULL, nullptr))
+            {
+               // saveAndload.LoadGameObject("Game.qpk");
+                for (auto& gameObject : currentScene.gameObjects)
+                {
+
+                }
+            }
             ImGui::MenuItem("Build", NULL, nullptr);
             ImGui::EndMenu();
         }
@@ -118,7 +154,7 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
 
     if (ImGui::Button("Add")) {
         Scene::GameObject newGameObject;
-        gameObjects.push_back(newGameObject);
+        currentScene.gameObjects.push_back(newGameObject);
     }
     if (ImGui::Selectable("Main Camera"))
     {
@@ -126,8 +162,8 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
         selectedGameObject = nullptr;
     }
     ImGui::Separator();
-    for (size_t i = 0; i < gameObjects.size(); i++) {
-        Scene::GameObject& object = gameObjects[i];
+    for (size_t i = 0; i < currentScene.gameObjects.size(); i++) {
+        Scene::GameObject& object = currentScene.gameObjects[i];
         object.ID = i;
         ImGui::PushID(i + "obj");
         if (ImGui::Selectable(object.name.c_str(), false, ImGuiSelectableFlags_None, ImVec2(ImGui::GetWindowSize().x - 80, 20)))
@@ -137,9 +173,10 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
         }
         ImGui::SameLine();
         if (ImGui::Selectable("Remove")) {
-            gameObjects.erase(gameObjects.begin() + i);
+            currentScene.gameObjects.erase(currentScene.gameObjects.begin() + i);
             i--;
             selectedGameObject != &object;
+            HasSaved = false;
         }
         ImGui::PopID();
         ImGui::Separator();
@@ -177,16 +214,16 @@ void Quixel::Editor::Editor::ProperitesPanel()
             ImGui::Separator();
             if (ImGui::Button("To top") && selectedGameObject->ID > 0)
             {
-                std::swap(gameObjects[selectedGameObject->ID], gameObjects[selectedGameObject->ID - 1]);
+                std::swap(currentScene.gameObjects[selectedGameObject->ID], currentScene.gameObjects[selectedGameObject->ID - 1]);
                 int ID = selectedGameObject->ID;
-                selectedGameObject = &gameObjects[ID];
+                selectedGameObject = &currentScene.gameObjects[ID];
             }
             ImGui::SameLine();
-            if (ImGui::Button("To bottom") && selectedGameObject->ID < gameObjects.size() - 1)
+            if (ImGui::Button("To bottom") && selectedGameObject->ID < currentScene.gameObjects.size() - 1)
             {
-                std::swap(gameObjects[selectedGameObject->ID], gameObjects[selectedGameObject->ID + 1]);
+                std::swap(currentScene.gameObjects[selectedGameObject->ID], currentScene.gameObjects[selectedGameObject->ID + 1]);
                 int ID = selectedGameObject->ID;
-                selectedGameObject = &gameObjects[ID];
+                selectedGameObject = &currentScene.gameObjects[ID];
             }
             ImGui::Separator();
             if (ImGui::CollapsingHeader("About"))
@@ -230,21 +267,45 @@ void Quixel::Editor::Editor::ProperitesPanel()
         ImGui::End();
     }
 }
-
+Quixel::BluePrints::BluePrintEditor bluePrintEditor;
+int Lat;
 void Quixel::Editor::Editor::BluePrintEditor()
 {
     if (ImGui::Begin("BluePrints"))
     {
-        imnodes::BeginNodeEditor();
+
         if (selectedGameObject != nullptr)
         {
             ImGui::Text(selectedGameObject->name.c_str());
+            bluePrintEditor.Start();
+            if (ImGui::IsKeyPressed(ImGuiKey_Z))
+            {
+                Quixel::BluePrints::BaseNode b;
+                b.id = Lat;
+                Lat = Lat + 1;
+                bluePrintEditor.nodes.push_back(b);
+            }
+
         }
         if (selectedGameObject == nullptr)
         {
             ImGui::Text("No GameObject selected");
         }
-        imnodes::EndNodeEditor();
+        ImGui::End();
+    }
+}
+void Quixel::Editor::Editor::Console()
+{
+    if (ImGui::Begin("Console"))
+    {
+        if (ImGui::ColorButton("Clear", ImVec4(255, 0, 0, 255), ImGuiColorEditFlags_NoTooltip) && ConsoleMessages.size() >= 0)
+        {
+            ConsoleMessages.clear(); 
+        }
+        for (auto& message : ConsoleMessages)
+        {
+            ImGui::Selectable(message.text.c_str());
+        }
         ImGui::End();
     }
 }
@@ -255,7 +316,7 @@ void Quixel::Editor::Editor::DrawAll(sf::RenderTexture& rt1, sf::RenderTexture& 
         (int)(MainCamera.color[1] * 255),
         (int)(MainCamera.color[2] * 255),
         MainCamera.Opacity));
-    for (auto& object : gameObjects)
+    for (auto& object : currentScene.gameObjects)
     {
         for (auto& texture : object.sprites)
         {
