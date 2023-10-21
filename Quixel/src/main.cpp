@@ -2,6 +2,7 @@
 #include "Style/ImguiStyle.h"
 #include <iostream>
 #include "Quixel.h"
+#include <imnodes.h>
 
 QuixelExtra::Icon icon;
 ImGui::ImGuiStyles imguiStyles;
@@ -29,7 +30,8 @@ int main()
     GameView.setSize(sf::Vector2f(1080, 500));
     auto& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
+    Quixel::BluePrints::NodeEditorInitialize();
+    editor.InitEditor();
     auto fancyFont = io.Fonts->AddFontFromFileTTF(
         "./Data/fonts/NotoSans-Regular.ttf", 20);
     if (!ImGui::SFML::UpdateFontTexture()) {
@@ -76,8 +78,10 @@ int main()
             window.display();
         }
     }
+    Quixel::BluePrints::NodeEditorShutdown();
     ImGui::SFML::Shutdown();
     imnodes::DestroyContext();
+
     return 0;
 }
 

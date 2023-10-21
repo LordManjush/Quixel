@@ -28,6 +28,16 @@ Quixel::Scene::Save_Load saveAndload;
 using json = nlohmann::json;
 
 float zoom = 9;
+void Quixel::Editor::Editor::InitEditor()
+{
+    Message m;
+    m.text = "[Sucess] Quixel Editor loaded";
+    Message z;
+    z.text = "[Sucess] Internal errors not found";
+
+    ConsoleMessages.push_back(m);
+    ConsoleMessages.push_back(z);
+}
 void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& SceneView)
 {
 
@@ -58,7 +68,7 @@ void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& Scen
         sf::ContextSettings context;
         context.antialiasingLevel = 9;
         float zoomNum = ImGui::GetIO().MouseWheel;
-        zoom += zoomNum;
+        zoom -= zoomNum;
         SceneView.setCenter(SceneCamera.Position.x, SceneCamera.Position.y);
         // SceneView.move(SceneCamera.Position.x, SceneCamera.Position.y);
         SceneView.setSize(1080, 500);
@@ -82,7 +92,7 @@ void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameV
     {
         GameView.setSize(700, 500);
         GameView.setCenter(MainCamera.Position);
-        rt.create(1080, 500);
+        rt.create(700, 500);
         rt.setView(GameView);
         ImGuiWindowFlags flags;
         flags = ImGuiWindowFlags_NoScrollWithMouse, ImGuiWindowFlags_NoTitleBar;
@@ -259,6 +269,10 @@ void Quixel::Editor::Editor::ProperitesPanel()
                 ImGui::DragFloat("Opacity", &selectedGameObject->Opacity, 1, 0.1, 0.1);
 
             }
+            ImGui::Separator();
+            ImGui::Text("Activate Logic");
+            ImGui::SameLine();
+            ImGui::Checkbox("##ActivateLogic", &selectedGameObject->UseLogic);
         }
         if (MainCamera.IsSelected == false && selectedGameObject == nullptr)
         {
@@ -267,32 +281,14 @@ void Quixel::Editor::Editor::ProperitesPanel()
         ImGui::End();
     }
 }
-Quixel::BluePrints::BluePrintEditor bluePrintEditor;
-int Lat;
 void Quixel::Editor::Editor::BluePrintEditor()
 {
-    if (ImGui::Begin("BluePrints"))
-    {
 
-        if (selectedGameObject != nullptr)
-        {
-            ImGui::Text(selectedGameObject->name.c_str());
-            bluePrintEditor.Start();
-            if (ImGui::IsKeyPressed(ImGuiKey_Z))
-            {
-                Quixel::BluePrints::BaseNode b;
-                b.id = Lat;
-                Lat = Lat + 1;
-                bluePrintEditor.nodes.push_back(b);
-            }
+    // The node editor window
+    ImGui::Begin("Blueprint Editor");
 
-        }
-        if (selectedGameObject == nullptr)
-        {
-            ImGui::Text("No GameObject selected");
-        }
-        ImGui::End();
-    }
+    Quixel::BluePrints::NodeEditorShow();
+
 }
 void Quixel::Editor::Editor::Console()
 {

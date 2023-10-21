@@ -25,6 +25,7 @@ namespace Quixel {
 			bool Properties = false;
 			float color[3] = { (float)255 / 255, (float)255 / 255, (float)255 / 255 };
 			float Opacity = 255;
+			bool UseLogic = false;
 			std::string textureName;
 			std::vector<SpriteRenderer> sprites;
 

@@ -84,9 +84,6 @@
     <ClInclude Include="Libraries\imgui\json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Editor\Graph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Editor\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -106,6 +103,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Libraries\imgui\imnodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Editor\graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

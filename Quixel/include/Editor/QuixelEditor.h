@@ -8,6 +8,7 @@ namespace Quixel
 	{
 		struct Editor
 		{
+			void InitEditor();
 			void SceneViewPort(sf::RenderTexture& rt, sf::View& SceneView);
 			void GameViewPort(sf::RenderTexture& rt, sf::View& GameView);
 			void SceneHierarchy(sf::RenderTexture& rt);

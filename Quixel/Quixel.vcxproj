@@ -142,7 +142,7 @@
     <ClInclude Include="Extra\AddIcon\Add Icon.h" />
     <ClInclude Include="Extra\Style\ImguiStyle.h" />
     <ClInclude Include="include\Editor\Console.h" />
-    <ClInclude Include="include\Editor\Graph.h" />
+    <ClInclude Include="include\Editor\graph.h" />
     <ClInclude Include="include\Editor\QuixelEditor.h" />
     <ClInclude Include="include\KeyDetection.h" />
     <ClInclude Include="include\Quixel.h" />
