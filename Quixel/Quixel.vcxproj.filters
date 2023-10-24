@@ -60,9 +60,6 @@
     <ClInclude Include="include\KeyDetection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Editor\BluePrints.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Editor\QuixelEditor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -90,22 +87,7 @@
     <ClInclude Include="Libraries\imgui\crude_json.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Libraries\imgui\imgui_bezier_math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\imgui\imgui_extra_math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\imgui\imgui_node_editor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\imgui\imgui_node_editor_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Libraries\imgui\imnodes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Editor\graph.h">
+    <ClInclude Include="include\Editor\Blueprints.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -146,9 +128,6 @@
     <ClCompile Include="src\KeyDetection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Editor\BluePrints.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Editor\QuixelEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -158,19 +137,5 @@
     <ClCompile Include="src\SpriteRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Libraries\imgui\imnodes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Libraries\imgui\imgui_bezier_math.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Libraries\imgui\imgui_extra_math.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Libraries\imgui\imgui_node_editor_internal.inl">
-      <Filter>Header Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

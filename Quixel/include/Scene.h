@@ -3,11 +3,16 @@
 #include <iostream>
 #include <fstream>
 #include <json.hpp>
+#include <Editor/Blueprints.h>
+#include <imgui.h>
+
 
 
 namespace Quixel {
+
 	namespace Scene
 	{
+
 		struct SpriteRenderer
 		{
 			std::string path;
@@ -28,6 +33,8 @@ namespace Quixel {
 			bool UseLogic = false;
 			std::string textureName;
 			std::vector<SpriteRenderer> sprites;
+			BluePrints::Action* selectedAction = nullptr;
+			std::vector<BluePrints::Action> actions;
 
 		};
 		void DrawAll(sf::RenderTexture& rt, GameObject& gameObject);

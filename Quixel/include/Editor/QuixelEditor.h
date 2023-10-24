@@ -1,11 +1,11 @@
 #pragma once
 #include <Graphics.hpp>
-#include <Editor/BluePrints.h>
 
 namespace Quixel
 {
 	namespace Editor
 	{
+
 		struct Editor
 		{
 			void InitEditor();

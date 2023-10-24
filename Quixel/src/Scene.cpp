@@ -1,4 +1,5 @@
 #include <Quixel.h>
+
 void Quixel::Scene::SceneManager::ChangeScene(int ID)
 {
 	for (auto& scene : scenes)

@@ -125,7 +125,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\manju\OneDrive\Desktop\Projects\MyGame Engines\Quixel\Quixel\Extra;C:\Users\manju\OneDrive\Desktop\Projects\MyGame Engines\Quixel\Quixel\include;C:\Users\manju\OneDrive\Desktop\Projects\MyGame Engines\Quixel\Quixel\Libraries\include\SFML;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>C:\Users\manju\OneDrive\Desktop\Projects\MyGame Engines\Quixel\Quixel;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,11 +138,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\Camera.h" />
-    <ClInclude Include="include\Editor\BluePrints.h" />
     <ClInclude Include="Extra\AddIcon\Add Icon.h" />
     <ClInclude Include="Extra\Style\ImguiStyle.h" />
+    <ClInclude Include="include\Editor\Blueprints.h" />
     <ClInclude Include="include\Editor\Console.h" />
-    <ClInclude Include="include\Editor\graph.h" />
     <ClInclude Include="include\Editor\QuixelEditor.h" />
     <ClInclude Include="include\KeyDetection.h" />
     <ClInclude Include="include\Quixel.h" />
@@ -156,13 +155,8 @@
     <ClInclude Include="Libraries\imgui\imgui.h" />
     <ClInclude Include="Libraries\imgui\ImGuiFileDialog.h" />
     <ClInclude Include="Libraries\imgui\ImGuiFileDialogConfig.h" />
-    <ClInclude Include="Libraries\imgui\imgui_bezier_math.h" />
-    <ClInclude Include="Libraries\imgui\imgui_extra_math.h" />
     <ClInclude Include="Libraries\imgui\imgui_internal.h" />
-    <ClInclude Include="Libraries\imgui\imgui_node_editor.h" />
-    <ClInclude Include="Libraries\imgui\imgui_node_editor_internal.h" />
     <ClInclude Include="Libraries\imgui\imgui_stdlib.h" />
-    <ClInclude Include="Libraries\imgui\imnodes.h" />
     <ClInclude Include="Libraries\imgui\imstb_rectpack.h" />
     <ClInclude Include="Libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="Libraries\imgui\imstb_truetype.h" />
@@ -171,9 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Libraries\imgui\ImGuiFileDialog.cpp" />
-    <ClCompile Include="Libraries\imgui\imnodes.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
-    <ClCompile Include="src\Editor\BluePrints.cpp" />
     <ClCompile Include="Extra\AddIcon\Add Icon.cpp" />
     <ClCompile Include="Extra\Style\ImguiStyle.cpp" />
     <ClCompile Include="src\Editor\QuixelEditor.cpp" />
@@ -187,11 +179,6 @@
     <ClCompile Include="Libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="Libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Libraries\imgui\imgui_bezier_math.inl" />
-    <None Include="Libraries\imgui\imgui_extra_math.inl" />
-    <None Include="Libraries\imgui\imgui_node_editor_internal.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

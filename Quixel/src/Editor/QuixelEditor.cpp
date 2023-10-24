@@ -3,9 +3,7 @@
 #include <AddIcon/Add Icon.h>
 #include <imgui_stdlib.h>
 #include <imgui-SFML.h>
-#include <Editor/Console.h>
 #include <json.hpp>
-
 
 
 Quixel::Scene::GameObject* selectedGameObject = nullptr;
@@ -14,7 +12,7 @@ bool IsPlaying = false;
 
 std::vector<Quixel::Message> ConsoleMessages;
 Quixel::Scene::Scene currentScene;
-
+std::vector<Quixel::Scene::GameObject> gameObjectsForPlay;
 #pragma region Views
 bool SceneWindow = true;
 bool GameWindow = true;
@@ -28,6 +26,13 @@ Quixel::Scene::Save_Load saveAndload;
 using json = nlohmann::json;
 
 float zoom = 9;
+bool OnStart = false;
+
+#pragma region Blueprints
+
+#pragma endregion
+
+
 void Quixel::Editor::Editor::InitEditor()
 {
     Message m;
@@ -65,8 +70,6 @@ void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& Scen
             SceneCamera.Position.y = SceneCamera.Position.y + 8;
         }
 
-        sf::ContextSettings context;
-        context.antialiasingLevel = 9;
         float zoomNum = ImGui::GetIO().MouseWheel;
         zoom -= zoomNum;
         SceneView.setCenter(SceneCamera.Position.x, SceneCamera.Position.y);
@@ -88,6 +91,7 @@ void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& Scen
 
 void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameView)
 {
+    const auto deadline = std::chrono::high_resolution_clock::now() + std::chrono::seconds(1);
     if (GameWindow == true)
     {
         GameView.setSize(700, 500);
@@ -95,12 +99,55 @@ void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameV
         rt.create(700, 500);
         rt.setView(GameView);
         ImGuiWindowFlags flags;
-        flags = ImGuiWindowFlags_NoScrollWithMouse, ImGuiWindowFlags_NoTitleBar;
+        flags = ImGuiWindowFlags_MenuBar;
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 0));
         ImGui::Begin("Game", nullptr, flags);
+        if (ImGui::BeginMenuBar())
+        {
+            if (IsPlaying == false)
+            {
+                if (ImGui::Button("Play") && IsPlaying == false)
+                {
+                    IsPlaying = true;
+                    const auto now = std::chrono::high_resolution_clock::now();
+                    for (auto& gameObject : currentScene.gameObjects)
+                    {
+                        for (auto& action : gameObject.actions)
+                        {
+                            if (action.TypeOfActionID == 0)
+                            {
+                                if (action.TypeOfLogicID == 0)
+                                {
+                                    if (now < deadline)
+                                    {
+                                        Message debug;
+                                        debug.text = "[Debug] Message from editor";
+                                        ConsoleMessages.push_back(debug);
+                                        action.OnStart = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (IsPlaying == true)
+            {
+                if (ImGui::Button("Stop") && IsPlaying == true)
+                {
+                    IsPlaying = false;
+                }
+            }
+            ImGui::EndMenuBar();
+        }
+
         ImGui::Image(rt, sf::Color::White);
         ImGui::PopStyleVar();
         ImGui::End();
+    }
+    if (IsPlaying == true)
+    {
+
     }
 
 }
@@ -143,21 +190,6 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
     }
 
 #pragma region Play and Stop
-    ImGui::Separator();
-    if (IsPlaying == false)
-    {
-        if (ImGui::Button("Play") && IsPlaying == false)
-        {
-            IsPlaying = true;
-        }
-    }
-    if (IsPlaying == true)
-    {
-        if (ImGui::Button("Stop") && IsPlaying == true)
-        {
-            IsPlaying = false;
-        }
-    }
     ImGui::Separator();
 
 #pragma endregion
@@ -222,14 +254,14 @@ void Quixel::Editor::Editor::ProperitesPanel()
         {
             ImGui::InputText("##dgdfg", &selectedGameObject->name);
             ImGui::Separator();
-            if (ImGui::Button("To top") && selectedGameObject->ID > 0)
+            if (ImGui::Button("To bottom") && selectedGameObject->ID > 0)
             {
                 std::swap(currentScene.gameObjects[selectedGameObject->ID], currentScene.gameObjects[selectedGameObject->ID - 1]);
                 int ID = selectedGameObject->ID;
                 selectedGameObject = &currentScene.gameObjects[ID];
             }
             ImGui::SameLine();
-            if (ImGui::Button("To bottom") && selectedGameObject->ID < currentScene.gameObjects.size() - 1)
+            if (ImGui::Button("To top") && selectedGameObject->ID < currentScene.gameObjects.size() - 1)
             {
                 std::swap(currentScene.gameObjects[selectedGameObject->ID], currentScene.gameObjects[selectedGameObject->ID + 1]);
                 int ID = selectedGameObject->ID;
@@ -273,6 +305,34 @@ void Quixel::Editor::Editor::ProperitesPanel()
             ImGui::Text("Activate Logic");
             ImGui::SameLine();
             ImGui::Checkbox("##ActivateLogic", &selectedGameObject->UseLogic);
+            if (ImGui::CollapsingHeader("Actions"))
+            {
+                if (ImGui::Button("New Action"))
+                {
+                    BluePrints::Action ac;
+                    selectedGameObject->actions.push_back(ac);
+                }
+                ImGui::Separator();
+                for (size_t i = 0; i < selectedGameObject->actions.size(); i++) {
+                    BluePrints::Action& object = selectedGameObject->actions[i];
+                    //object.ID = i;
+                    ImGui::PushID(i + "obj");
+                    if (ImGui::Selectable(object.name.c_str(), false, ImGuiSelectableFlags_None, ImVec2(ImGui::GetWindowSize().x - 80, 20)))
+                    {
+                       // MainCamera.IsSelected = false;
+                       selectedGameObject->selectedAction = &object;
+                    }
+                    ImGui::SameLine();
+                    if (ImGui::Selectable("Remove")) {
+                        selectedGameObject->actions.erase(selectedGameObject->actions.begin() + i);
+                        i--;
+                         selectedGameObject->selectedAction != &object;
+                       // HasSaved = false;
+                    }
+                    ImGui::PopID();
+                    ImGui::Separator();
+                }
+            }
         }
         if (MainCamera.IsSelected == false && selectedGameObject == nullptr)
         {
@@ -285,10 +345,21 @@ void Quixel::Editor::Editor::BluePrintEditor()
 {
 
     // The node editor window
-    ImGui::Begin("Blueprint Editor");
-
-    Quixel::BluePrints::NodeEditorShow();
-
+    ImGui::Begin("Actions");
+    if (selectedGameObject != nullptr)
+    {
+        if (selectedGameObject->selectedAction != nullptr)
+        {
+            if (ImGui::CollapsingHeader("Settings"))
+            {
+                ImGui::InputText("##NameOfAction", &selectedGameObject->selectedAction->name);
+                ImGui::Combo("##TypeOfAction", &selectedGameObject->selectedAction->TypeOfActionID, selectedGameObject->selectedAction->ActionTypes, IM_ARRAYSIZE(selectedGameObject->selectedAction->ActionTypes));
+                ImGui::Separator();
+                ImGui::Combo("##TypeOfLogic", &selectedGameObject->selectedAction->TypeOfLogicID, selectedGameObject->selectedAction->LogicTypes, IM_ARRAYSIZE(selectedGameObject->selectedAction->LogicTypes));
+            }
+        }
+    }
+    ImGui::End();
 }
 void Quixel::Editor::Editor::Console()
 {
@@ -322,5 +393,4 @@ void Quixel::Editor::Editor::DrawAll(sf::RenderTexture& rt1, sf::RenderTexture& 
         }
     }
 }
-
 
