@@ -48,7 +48,7 @@ void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& Scen
 
     if (SceneWindow == true)
     {
-        if (ImGui::IsKeyDown(ImGuiKey_G))
+        if (ImGui::IsKeyDown(ImGuiKey_F))
         {
             SceneCamera.Position.x = 350;
             SceneCamera.Position.y = 150;
@@ -91,6 +91,282 @@ void Quixel::Editor::Editor::SceneViewPort(sf::RenderTexture& rt, sf::View& Scen
 
 void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameView)
 {
+    if (IsPlaying == true)
+    {
+        for (auto& gameObject : currentScene.gameObjects)
+        {
+            for (auto& action : gameObject.actions)
+            {
+                action.SetUpAllKeys();
+                if (action.TypeOfActionID == 1 && ImGui::IsKeyPressed(action.keyCode))
+                {
+                    if (action.TypeOfLogicID == 0)
+                    {
+
+                        Message debug;
+                        debug.text = "[Debug] " + action.PrintCode;
+                        ConsoleMessages.push_back(debug);
+                    }
+                    if (action.TypeOfLogicID == 1)
+                    {
+                        gameObject.Position.x += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 2)
+                    {
+                        gameObject.Position.y += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 3)
+                    {
+                        gameObject.Scale.x += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 4)
+                    {
+
+                        gameObject.Scale.y += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 5)
+                    {
+                        gameObject.Rotation += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 6)
+                    {
+                        gameObject.color[0] = action.CodeColor[0];
+
+                        gameObject.color[1] = action.CodeColor[1];
+
+                        gameObject.color[2] = action.CodeColor[2];
+
+                        gameObject.Opacity = action.CodeOpacity;
+                    }
+                    if (action.TypeOfLogicID == 7)
+                    {
+                        gameObject.Scale.x = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 8)
+                    {
+                        gameObject.Scale.y = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 9)
+                    {
+                        gameObject.Position.x = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 10)
+                    {
+                        gameObject.Position.y = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 11)
+                    {
+                        gameObject.Rotation = action.StepData;
+                    }
+                }
+            }
+        }
+        for (auto& gameObject : currentScene.gameObjects)
+        {
+            for (auto& action : gameObject.actions)
+            {
+                action.SetUpAllKeys();
+                if (action.TypeOfActionID == 2 && ImGui::IsKeyDown(action.keyCode))
+                {
+                    if (action.TypeOfLogicID == 0)
+                    {
+
+                        Message debug;
+                        debug.text = "[Debug] " + action.PrintCode;
+                        ConsoleMessages.push_back(debug);
+                    }
+                    if (action.TypeOfLogicID == 1)
+                    {
+                        gameObject.Position.x += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 2)
+                    {
+                        gameObject.Position.y += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 3)
+                    {
+                        gameObject.Scale.x += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 4)
+                    {
+
+                        gameObject.Scale.y += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 5)
+                    {
+                        gameObject.Rotation += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 6)
+                    {
+                        gameObject.color[0] = action.CodeColor[0];
+
+                        gameObject.color[1] = action.CodeColor[1];
+
+                        gameObject.color[2] = action.CodeColor[2];
+
+                        gameObject.Opacity = action.CodeOpacity;
+                    }
+                    if (action.TypeOfLogicID == 7)
+                    {
+                        gameObject.Scale.x = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 8)
+                    {
+                        gameObject.Scale.y = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 9)
+                    {
+                        gameObject.Position.x = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 10)
+                    {
+                        gameObject.Position.y = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 11)
+                    {
+                        gameObject.Rotation = action.StepData;
+                    }
+                }
+            }
+        }
+        for (auto& gameObject : currentScene.gameObjects)
+        {
+            for (auto& action : gameObject.actions)
+            {
+                action.SetUpAllKeys();
+                if (action.TypeOfActionID == 3 && ImGui::IsKeyReleased(action.keyCode))
+                {
+                    if (action.TypeOfLogicID == 0)
+                    {
+
+                        Message debug;
+                        debug.text = "[Debug] " + action.PrintCode;
+                        ConsoleMessages.push_back(debug);
+                    }
+                    if (action.TypeOfLogicID == 1)
+                    {
+                        gameObject.Position.x += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 2)
+                    {
+                        gameObject.Position.y += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 3)
+                    {
+                        gameObject.Scale.x += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 4)
+                    {
+
+                        gameObject.Scale.y += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 5)
+                    {
+                        gameObject.Rotation += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 6)
+                    {
+                        gameObject.color[0] = action.CodeColor[0];
+
+                        gameObject.color[1] = action.CodeColor[1];
+
+                        gameObject.color[2] = action.CodeColor[2];
+
+                        gameObject.Opacity = action.CodeOpacity;
+                    }
+                    if (action.TypeOfLogicID == 7)
+                    {
+                        gameObject.Scale.x = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 8)
+                    {
+                        gameObject.Scale.y = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 9)
+                    {
+                        gameObject.Position.x = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 10)
+                    {
+                        gameObject.Position.y = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 11)
+                    {
+                        gameObject.Rotation = action.StepData;
+                    }
+                }
+            }
+        }
+        for (auto& gameObject : currentScene.gameObjects)
+        {
+            for (auto& action : gameObject.actions)
+            {
+                action.SetUpAllKeys();
+
+                if (action.TypeOfActionID == 4)
+                {
+                    if (action.TypeOfLogicID == 0)
+                    {
+
+                        Message debug;
+                        debug.text = "[Debug] " + action.PrintCode;
+                        ConsoleMessages.push_back(debug);
+                    }
+                    if (action.TypeOfLogicID == 1)
+                    {
+                        gameObject.Position.x += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 2)
+                    {
+                        gameObject.Position.y += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 3)
+                    {
+                        gameObject.Scale.x += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 4)
+                    {
+
+                        gameObject.Scale.y += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 5)
+                    {
+                        gameObject.Rotation += action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 6)
+                    {
+                        gameObject.color[0] = action.CodeColor[0];
+
+                        gameObject.color[1] = action.CodeColor[1];
+
+                        gameObject.color[2] = action.CodeColor[2];
+
+                        gameObject.Opacity = action.CodeOpacity;
+                    }
+                    if (action.TypeOfLogicID == 7)
+                    {
+                        gameObject.Scale.x = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 8)
+                    {
+                        gameObject.Scale.y = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 9)
+                    {
+                        gameObject.Position.x = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 10)
+                    {
+                        gameObject.Position.y = action.StepData;
+                    }
+                    if (action.TypeOfLogicID == 11)
+                    {
+                        gameObject.Rotation = action.StepData;
+                    }
+                }
+            }
+        }
+    }
     const auto deadline = std::chrono::high_resolution_clock::now() + std::chrono::seconds(1);
     if (GameWindow == true)
     {
@@ -110,8 +386,13 @@ void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameV
                 {
                     IsPlaying = true;
                     const auto now = std::chrono::high_resolution_clock::now();
+                    Message InPlayModeMessage;
+                    InPlayModeMessage.text = "[info] In PlayMode";
+                    ConsoleMessages.push_back(InPlayModeMessage);
+                    gameObjectsForPlay.clear();
                     for (auto& gameObject : currentScene.gameObjects)
                     {
+                        gameObjectsForPlay.push_back(gameObject);
                         for (auto& action : gameObject.actions)
                         {
                             if (action.TypeOfActionID == 0)
@@ -121,9 +402,91 @@ void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameV
                                     if (now < deadline)
                                     {
                                         Message debug;
-                                        debug.text = "[Debug] Message from editor";
+                                        debug.text = "[Debug] " + action.PrintCode;
                                         ConsoleMessages.push_back(debug);
-                                        action.OnStart = false;
+                                    }
+                                }
+                                if (action.TypeOfLogicID == 1)
+                                {
+                                    if (now < deadline)
+                                    {
+                                        gameObject.Position.x += action.StepData;
+                                    }
+                                }
+                                if (action.TypeOfLogicID == 2)
+                                {
+                                    if (now < deadline)
+                                    {
+                                        gameObject.Position.y += action.StepData;
+                                    }
+                                }
+                                if (action.TypeOfLogicID == 3)
+                                {
+                                    if (now < deadline)
+                                    {
+                                        gameObject.Scale.x += action.StepData;
+                                    }
+                                }
+                                if (action.TypeOfLogicID == 4)
+                                {
+                                    if (now < deadline)
+                                    {
+                                        gameObject.Scale.y += action.StepData;
+                                    }
+                                }
+                                if (action.TypeOfLogicID == 5)
+                                {
+                                    if (now < deadline)
+                                    {
+                                        gameObject.Rotation += action.StepData;
+                                    }
+                                }
+                                if (action.TypeOfLogicID == 6)
+                                {
+                                    if (now < deadline)
+                                    {
+                                        gameObject.color[0] = action.CodeColor[0];
+                                    
+                                        gameObject.color[1] = action.CodeColor[1];
+
+                                        gameObject.color[2] = action.CodeColor[2];
+
+                                        gameObject.Opacity = action.CodeOpacity;
+                                    }
+                                }
+                                if (action.TypeOfLogicID == 7)
+                                {
+                                    if (now < deadline)
+                                    {
+                                        gameObject.Scale.x = action.StepData;
+                                    }
+                                }
+                                if (action.TypeOfLogicID == 8)
+                                {
+                                    if (now < deadline)
+                                    {
+                                        gameObject.Scale.y = action.StepData;
+                                    }
+                                }
+                                if (action.TypeOfLogicID == 9)
+                                {
+                                    if (now < deadline)
+                                    {
+                                        gameObject.Position.x = action.StepData;
+                                    }
+                                }
+                                if (action.TypeOfLogicID == 10)
+                                {
+                                    if (now < deadline)
+                                    {
+                                        gameObject.Position.y = action.StepData;
+                                    }
+                                }
+                                if (action.TypeOfLogicID == 11)
+                                {
+                                    if (now < deadline)
+                                    {
+                                        gameObject.Rotation = action.StepData;
                                     }
                                 }
                             }
@@ -133,9 +496,15 @@ void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameV
             }
             if (IsPlaying == true)
             {
+
                 if (ImGui::Button("Stop") && IsPlaying == true)
                 {
                     IsPlaying = false;
+                    currentScene.gameObjects.clear();
+                    for (auto& gameObject : gameObjectsForPlay)
+                    {
+                        currentScene.gameObjects.push_back(gameObject);
+                    }
                 }
             }
             ImGui::EndMenuBar();
@@ -144,10 +513,6 @@ void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameV
         ImGui::Image(rt, sf::Color::White);
         ImGui::PopStyleVar();
         ImGui::End();
-    }
-    if (IsPlaying == true)
-    {
-
     }
 
 }
@@ -354,8 +719,26 @@ void Quixel::Editor::Editor::BluePrintEditor()
             {
                 ImGui::InputText("##NameOfAction", &selectedGameObject->selectedAction->name);
                 ImGui::Combo("##TypeOfAction", &selectedGameObject->selectedAction->TypeOfActionID, selectedGameObject->selectedAction->ActionTypes, IM_ARRAYSIZE(selectedGameObject->selectedAction->ActionTypes));
+                if (selectedGameObject->selectedAction->TypeOfActionID >= 1)
+                {
+                    ImGui::Combo("##TypeOfKey", &selectedGameObject->selectedAction->KeyID, selectedGameObject->selectedAction->KeyTypes, IM_ARRAYSIZE(selectedGameObject->selectedAction->KeyTypes));
+                }
                 ImGui::Separator();
                 ImGui::Combo("##TypeOfLogic", &selectedGameObject->selectedAction->TypeOfLogicID, selectedGameObject->selectedAction->LogicTypes, IM_ARRAYSIZE(selectedGameObject->selectedAction->LogicTypes));
+
+                if (selectedGameObject->selectedAction->TypeOfLogicID == 0)
+                {
+                    ImGui::InputText("##TextForPrint", &selectedGameObject->selectedAction->PrintCode);
+                }
+                if (selectedGameObject->selectedAction->TypeOfLogicID == 1 || selectedGameObject->selectedAction->TypeOfLogicID == 2 || selectedGameObject->selectedAction->TypeOfLogicID == 3  || selectedGameObject->selectedAction->TypeOfLogicID == 4 || selectedGameObject->selectedAction->TypeOfLogicID == 5 || selectedGameObject->selectedAction->TypeOfLogicID == 7 || selectedGameObject->selectedAction->TypeOfLogicID == 8 || selectedGameObject->selectedAction->TypeOfLogicID == 9 || selectedGameObject->selectedAction->TypeOfLogicID == 10)
+                {
+                    ImGui::SliderFloat("##Dataddd", &selectedGameObject->selectedAction->StepData, -10000, 1000);
+                }
+                if (selectedGameObject->selectedAction->TypeOfLogicID == 6) 
+                {
+                    ImGui::ColorEdit3("##ColorObject", selectedGameObject->selectedAction->CodeColor);
+                    ImGui::DragFloat("##Opacity Of Object", &selectedGameObject->selectedAction->CodeOpacity, 1, 0.1, 0.1);
+                }
             }
         }
     }
