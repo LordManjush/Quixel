@@ -1,4 +1,8 @@
 #include <Quixel.h>
+#include <json.hpp>
+
+
+using json = nlohmann::json;
 
 void Quixel::Scene::SceneManager::ChangeScene(int ID)
 {
@@ -25,11 +29,18 @@ void Quixel::Scene::DrawAll(sf::RenderTexture& rt, GameObject& gameObject)
 }
 
 
-
-void Quixel::Scene::Save_Load::SaveGameObject(const Quixel::Scene::GameObject& object, const std::string& filename)
+json Js;
+void Quixel::Scene::Save_Load::SaveGameObject(const Quixel::Scene::GameObject& object, const std::string& filename, std::vector<GameObject> gameobjects)
 {
-
-
+	std::ofstream file(filename);
+	file.open(filename, std::ios_base::in);
+	if (file.is_open())
+	{
+		for (auto& object : gameobjects)
+		{
+			Js["name"] = object.name;
+		}
+	}
 }
 
 void Quixel::Scene::Save_Load::LoadGameObject(const std::string& filename, std::vector<GameObject> gameObjects)

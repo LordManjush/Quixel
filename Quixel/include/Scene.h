@@ -50,7 +50,7 @@ namespace Quixel {
 			void ChangeScene(int ID);
 		};
 		struct Save_Load {
-			void SaveGameObject(const Quixel::Scene::GameObject& object, const std::string& filename);
+			void SaveGameObject(const Quixel::Scene::GameObject& object, const std::string& filename, std::vector<GameObject> gameobjects);
 			void LoadGameObject(const std::string& filename, std::vector<GameObject> gameObjects);
 		};
 	}

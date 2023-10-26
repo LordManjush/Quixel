@@ -164,7 +164,7 @@
     <ClInclude Include="Libraries\imgui\json.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\Editor\Blueprints.cpp" />
+    <ClCompile Include="src\Editor\Blueprints.cpp" />
     <ClCompile Include="Libraries\imgui\ImGuiFileDialog.cpp" />
     <ClCompile Include="src\SpriteRenderer.cpp" />
     <ClCompile Include="Extra\AddIcon\Add Icon.cpp" />

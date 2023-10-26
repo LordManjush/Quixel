@@ -3,7 +3,7 @@
 #include <AddIcon/Add Icon.h>
 #include <imgui_stdlib.h>
 #include <imgui-SFML.h>
-#include <json.hpp>
+
 
 
 Quixel::Scene::GameObject* selectedGameObject = nullptr;
@@ -367,7 +367,7 @@ void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameV
             }
         }
     }
-    const auto deadline = std::chrono::high_resolution_clock::now() + std::chrono::seconds(1);
+
     if (GameWindow == true)
     {
         GameView.setSize(700, 500);
@@ -378,137 +378,6 @@ void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameV
         flags = ImGuiWindowFlags_MenuBar;
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8, 0));
         ImGui::Begin("Game", nullptr, flags);
-        if (ImGui::BeginMenuBar())
-        {
-            if (IsPlaying == false)
-            {
-                if (ImGui::Button("Play") && IsPlaying == false)
-                {
-                    IsPlaying = true;
-                    const auto now = std::chrono::high_resolution_clock::now();
-                    Message InPlayModeMessage;
-                    InPlayModeMessage.text = "[info] In PlayMode";
-                    ConsoleMessages.push_back(InPlayModeMessage);
-                    gameObjectsForPlay.clear();
-                    for (auto& gameObject : currentScene.gameObjects)
-                    {
-                        gameObjectsForPlay.push_back(gameObject);
-                        for (auto& action : gameObject.actions)
-                        {
-                            if (action.TypeOfActionID == 0)
-                            {
-                                if (action.TypeOfLogicID == 0)
-                                {
-                                    if (now < deadline)
-                                    {
-                                        Message debug;
-                                        debug.text = "[Debug] " + action.PrintCode;
-                                        ConsoleMessages.push_back(debug);
-                                    }
-                                }
-                                if (action.TypeOfLogicID == 1)
-                                {
-                                    if (now < deadline)
-                                    {
-                                        gameObject.Position.x += action.StepData;
-                                    }
-                                }
-                                if (action.TypeOfLogicID == 2)
-                                {
-                                    if (now < deadline)
-                                    {
-                                        gameObject.Position.y += action.StepData;
-                                    }
-                                }
-                                if (action.TypeOfLogicID == 3)
-                                {
-                                    if (now < deadline)
-                                    {
-                                        gameObject.Scale.x += action.StepData;
-                                    }
-                                }
-                                if (action.TypeOfLogicID == 4)
-                                {
-                                    if (now < deadline)
-                                    {
-                                        gameObject.Scale.y += action.StepData;
-                                    }
-                                }
-                                if (action.TypeOfLogicID == 5)
-                                {
-                                    if (now < deadline)
-                                    {
-                                        gameObject.Rotation += action.StepData;
-                                    }
-                                }
-                                if (action.TypeOfLogicID == 6)
-                                {
-                                    if (now < deadline)
-                                    {
-                                        gameObject.color[0] = action.CodeColor[0];
-                                    
-                                        gameObject.color[1] = action.CodeColor[1];
-
-                                        gameObject.color[2] = action.CodeColor[2];
-
-                                        gameObject.Opacity = action.CodeOpacity;
-                                    }
-                                }
-                                if (action.TypeOfLogicID == 7)
-                                {
-                                    if (now < deadline)
-                                    {
-                                        gameObject.Scale.x = action.StepData;
-                                    }
-                                }
-                                if (action.TypeOfLogicID == 8)
-                                {
-                                    if (now < deadline)
-                                    {
-                                        gameObject.Scale.y = action.StepData;
-                                    }
-                                }
-                                if (action.TypeOfLogicID == 9)
-                                {
-                                    if (now < deadline)
-                                    {
-                                        gameObject.Position.x = action.StepData;
-                                    }
-                                }
-                                if (action.TypeOfLogicID == 10)
-                                {
-                                    if (now < deadline)
-                                    {
-                                        gameObject.Position.y = action.StepData;
-                                    }
-                                }
-                                if (action.TypeOfLogicID == 11)
-                                {
-                                    if (now < deadline)
-                                    {
-                                        gameObject.Rotation = action.StepData;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if (IsPlaying == true)
-            {
-
-                if (ImGui::Button("Stop") && IsPlaying == true)
-                {
-                    IsPlaying = false;
-                    currentScene.gameObjects.clear();
-                    for (auto& gameObject : gameObjectsForPlay)
-                    {
-                        currentScene.gameObjects.push_back(gameObject);
-                    }
-                }
-            }
-            ImGui::EndMenuBar();
-        }
 
         ImGui::Image(rt, sf::Color::White);
         ImGui::PopStyleVar();
@@ -516,8 +385,11 @@ void Quixel::Editor::Editor::GameViewPort(sf::RenderTexture& rt, sf::View& GameV
     }
 
 }
+
+
 void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
 {
+    const auto deadline = std::chrono::high_resolution_clock::now() + std::chrono::seconds(1);
     ImGui::Begin("Hierarchy", nullptr, ImGuiWindowFlags_MenuBar);
     if (ImGui::BeginMenuBar())
     {
@@ -527,7 +399,7 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
             {
                 for (auto& gameObject : currentScene.gameObjects)
                 {
-                    saveAndload.SaveGameObject(gameObject, "Game.qpk");
+                    saveAndload.SaveGameObject(gameObject, "Game.qpk", currentScene.gameObjects);
                 }
                 Message savedMessage;
                 savedMessage.text = "Saved Project";
@@ -541,7 +413,6 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
 
                 }
             }
-            ImGui::MenuItem("Build", NULL, nullptr);
             ImGui::EndMenu();
         }
         if (ImGui::BeginMenu("View"))
@@ -549,6 +420,7 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
             ImGui::MenuItem("Scene View", NULL, &SceneWindow);
             ImGui::MenuItem("Properties", NULL, &PropertiesWindow);
             ImGui::MenuItem("Console", NULL, &ConsoleWindow);
+            ImGui::MenuItem("Game View", NULL, &GameWindow);
             ImGui::EndMenu();
         }
         ImGui::EndMenuBar();
@@ -556,7 +428,133 @@ void Quixel::Editor::Editor::SceneHierarchy(sf::RenderTexture& rt)
 
 #pragma region Play and Stop
     ImGui::Separator();
+    if (IsPlaying == false)
+    {
+        if (ImGui::Button("Play") && IsPlaying == false)
+        {
+            IsPlaying = true;
+            const auto now = std::chrono::high_resolution_clock::now();
+            Message InPlayModeMessage;
+            InPlayModeMessage.text = "[info] In PlayMode";
+            ConsoleMessages.push_back(InPlayModeMessage);
+            gameObjectsForPlay.clear();
+            for (auto& gameObject : currentScene.gameObjects)
+            {
+                gameObjectsForPlay.push_back(gameObject);
+                for (auto& action : gameObject.actions)
+                {
+                    if (action.TypeOfActionID == 0)
+                    {
+                        if (action.TypeOfLogicID == 0)
+                        {
+                            if (now < deadline)
+                            {
+                                Message debug;
+                                debug.text = "[Debug] " + action.PrintCode;
+                                ConsoleMessages.push_back(debug);
+                            }
+                        }
+                        if (action.TypeOfLogicID == 1)
+                        {
+                            if (now < deadline)
+                            {
+                                gameObject.Position.x += action.StepData;
+                            }
+                        }
+                        if (action.TypeOfLogicID == 2)
+                        {
+                            if (now < deadline)
+                            {
+                                gameObject.Position.y += action.StepData;
+                            }
+                        }
+                        if (action.TypeOfLogicID == 3)
+                        {
+                            if (now < deadline)
+                            {
+                                gameObject.Scale.x += action.StepData;
+                            }
+                        }
+                        if (action.TypeOfLogicID == 4)
+                        {
+                            if (now < deadline)
+                            {
+                                gameObject.Scale.y += action.StepData;
+                            }
+                        }
+                        if (action.TypeOfLogicID == 5)
+                        {
+                            if (now < deadline)
+                            {
+                                gameObject.Rotation += action.StepData;
+                            }
+                        }
+                        if (action.TypeOfLogicID == 6)
+                        {
+                            if (now < deadline)
+                            {
+                                gameObject.color[0] = action.CodeColor[0];
 
+                                gameObject.color[1] = action.CodeColor[1];
+
+                                gameObject.color[2] = action.CodeColor[2];
+
+                                gameObject.Opacity = action.CodeOpacity;
+                            }
+                        }
+                        if (action.TypeOfLogicID == 7)
+                        {
+                            if (now < deadline)
+                            {
+                                gameObject.Scale.x = action.StepData;
+                            }
+                        }
+                        if (action.TypeOfLogicID == 8)
+                        {
+                            if (now < deadline)
+                            {
+                                gameObject.Scale.y = action.StepData;
+                            }
+                        }
+                        if (action.TypeOfLogicID == 9)
+                        {
+                            if (now < deadline)
+                            {
+                                gameObject.Position.x = action.StepData;
+                            }
+                        }
+                        if (action.TypeOfLogicID == 10)
+                        {
+                            if (now < deadline)
+                            {
+                                gameObject.Position.y = action.StepData;
+                            }
+                        }
+                        if (action.TypeOfLogicID == 11)
+                        {
+                            if (now < deadline)
+                            {
+                                gameObject.Rotation = action.StepData;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (IsPlaying == true)
+    {
+
+        if (ImGui::Button("Stop") && IsPlaying == true)
+        {
+            IsPlaying = false;
+            currentScene.gameObjects.clear();
+            for (auto& gameObject : gameObjectsForPlay)
+            {
+                currentScene.gameObjects.push_back(gameObject);
+            }
+        }
+    }
 #pragma endregion
 
     if (ImGui::Button("Add")) {
@@ -667,9 +665,6 @@ void Quixel::Editor::Editor::ProperitesPanel()
 
             }
             ImGui::Separator();
-            ImGui::Text("Activate Logic");
-            ImGui::SameLine();
-            ImGui::Checkbox("##ActivateLogic", &selectedGameObject->UseLogic);
             if (ImGui::CollapsingHeader("Actions"))
             {
                 if (ImGui::Button("New Action"))
@@ -719,7 +714,7 @@ void Quixel::Editor::Editor::BluePrintEditor()
             {
                 ImGui::InputText("##NameOfAction", &selectedGameObject->selectedAction->name);
                 ImGui::Combo("##TypeOfAction", &selectedGameObject->selectedAction->TypeOfActionID, selectedGameObject->selectedAction->ActionTypes, IM_ARRAYSIZE(selectedGameObject->selectedAction->ActionTypes));
-                if (selectedGameObject->selectedAction->TypeOfActionID >= 1)
+                if (selectedGameObject->selectedAction->TypeOfActionID == 1 || selectedGameObject->selectedAction->TypeOfActionID == 2 || selectedGameObject->selectedAction->TypeOfActionID == 3)
                 {
                     ImGui::Combo("##TypeOfKey", &selectedGameObject->selectedAction->KeyID, selectedGameObject->selectedAction->KeyTypes, IM_ARRAYSIZE(selectedGameObject->selectedAction->KeyTypes));
                 }

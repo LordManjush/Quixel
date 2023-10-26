@@ -1,4 +1,4 @@
-#include "Blueprints.h"
+#include "Editor/Blueprints.h"
 
 void Quixel::BluePrints::Action::SetUpAllKeys()
 {
