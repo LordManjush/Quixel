@@ -2,9 +2,8 @@
 
 Made because of my ego
 
-using SFML, IMGUI
+using SFML, glfw, glad IMGUI
 
-(Changed the time to 14 days because i wanna add multiplayer)
 
 ![Quixel](https://github.com/LordManjush/Quixel/assets/133102637/78b183d9-d116-4066-9d43-1899b0442801)
 
