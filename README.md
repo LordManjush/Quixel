@@ -2,7 +2,7 @@
 
 Made because of my ego
 
-using SFML, glfw, glad IMGUI
+using vulkan, glfw, glad, Imgui(New version) Commits soon
 
 
 ![Quixel](https://github.com/LordManjush/Quixel/assets/133102637/78b183d9-d116-4066-9d43-1899b0442801)
